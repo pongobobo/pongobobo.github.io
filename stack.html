@@ -1,0 +1,247 @@
+<html>
+    <head>
+        <title>Constructor</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js" integrity="sha512-uaz5GpnQoE6t5echKlX8P52czvsIGgLPcvlzfvRubLZ1Hp8JemUDnbUiAahbVtPb+jUVrNETuXvAhDDF/N3M4w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script defer src="https://unpkg.com/p5.collide2d"></script>
+
+        <style>
+
+            body {
+                overflow: hidden;
+                margin: 0;
+            }
+            
+            div {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 18px;
+            }
+
+            #keys {
+                
+                width: 100%;
+                height: 18;
+                position: absolute;
+                top: 1;
+                text-align: right;
+                
+            }
+
+        </style>
+
+    </head>
+    <body>
+        <script>
+            //setup-------------------------------------------
+            let w = window.innerWidth;
+            let h = window.innerHeight - 60;
+
+
+            let player;
+
+            function setup() { 
+                createCanvas(w,h);
+                player = new newgame();
+                frameRate(60);
+            }
+
+            let over = false;
+            
+
+           //blocks----------------------------------------------
+            let blockw = 400;
+            let blockh = 30;
+            let speed;
+
+            //placed blocks=-------------------------------------
+            let score;
+            let bockcount = 1;
+            placedl = [blockw];
+            placedw =[blockh];
+            placedx = [w / 2 - blockw / 2];
+            placedh = [h - 60];
+
+            //direction
+            let direction;
+
+            
+
+            //start new game--------------------------------------
+            function newgame() {
+
+               
+
+                //high score---------------------
+                
+                let highscore = parseInt(localStorage.getItem('high'));
+                
+                let lastscore = parseInt(localStorage.getItem('last'));
+                
+
+
+
+                
+                if (lastscore >= highscore) {
+                    localStorage.setItem('high',lastscore);
+                    highscore = localStorage.getItem('high');
+                }
+
+                document.getElementById('high').innerText = "high: " + highscore;
+                document.getElementById('last').innerText = "last: " + lastscore;
+
+            
+
+                this.x = 0;
+                this.y = h - 2 * blockh;
+                this.w = blockw;
+                this.h = blockh;
+
+                //set 
+                direction = 1;
+                speed = 4;
+                score = 0;
+                blockcount = 1;
+                placedl = [blockw];
+                placedw =[blockh];
+                placedx = [w / 2 - blockw / 2];
+                placedh = [h - blockh];
+            }
+
+
+            //current block movement-----------------------------
+            function changed() {
+                player.x += direction * speed;
+
+                if (player.x < 0) {
+                    direction = 1
+                }
+
+                if (player.x + player.w > w) {
+                    direction = -1
+                }
+            }
+
+            //new block-----------------------------------------
+            function newblock() {
+
+                stackh = (blockcount + 1) * blockh;
+                
+                player.y = h - stackh;
+
+            }
+
+
+            //draw blocks----------------------------------------
+            function drawblocks() {
+
+
+                rect(player.x, player.y, player.w, player.h);
+                
+                //draw placed blocks again
+
+                for(let i = 0; i < blockcount; i++) {
+                    rect(placedx[i], placedh[i], placedl[i], placedw[i]);
+                }
+            }
+
+
+            //key pressed---------------------------------------
+            function keyPressed() {
+                if(key === " ") {
+                    place();
+
+                }
+                if (keyCode === BACKSPACE) {
+                    location.href = "stackh.html"
+                }
+            }
+
+            //place block--------------------------------------
+            function place() {
+
+                //find new block length
+
+                
+                let lastbx = placedx[blockcount - 1];
+                let left = max(lastbx, player.x);
+                let right = min(lastbx + player.w, player.x + player.w);
+                let newl = right - left;
+                player.x = left;
+                player.w = newl;
+                
+
+                //loss-------------------------
+                if (player.w < 0) {
+
+                    localStorage.setItem('last',score);
+
+                    score = 0;
+                    document.getElementById('score').innerText = "score: " + score;
+                    
+                    player.x = 0;
+                    player.y = h - 2 * blockh;
+                    player.w = blockw;
+                    player.h = blockh;
+                    newgame();
+                    return;
+                }
+                
+
+                speed += (speed * 0.03);
+                //place
+
+                score ++;
+                document.getElementById('score').innerText = "score: " + score;
+                //console.log(score);
+                placedl.push(player.w);
+                placedw.push(player.h);
+                placedx.push(player.x);
+                placedh.push(player.y);
+
+                if (player.y <=blockh - 5) {
+                    placedl.shift();
+                    placedw.shift();
+                    placedx.shift();
+                    placedh.pop();
+                    
+                }
+
+                else {
+                    blockcount++;
+                }
+                
+                newblock();
+            }
+
+           
+
+
+            //draw---------------------------------------------
+            function draw() {
+                clear();
+                changed();
+                drawblocks();
+            }
+                
+
+
+
+        </script>
+
+        <div id="score">
+            score: 0
+        </div>
+
+        <div id="last">
+            last: 0
+        </div>
+
+        <div id="high">
+            high:
+        </div>
+
+        <div id="keys">
+            SPACE to place block    ENTER to return 
+        </div>
+
+    </body>
+</html>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
