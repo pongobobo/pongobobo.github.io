@@ -1,0 +1,116 @@
+<html>
+    <head>
+
+        <script>
+            function play() {
+                location.href = "stack.html"
+            }
+            function survive() {
+                location.href = "survive.html"
+            }
+        </script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Happy+Monkey&display=swap" rel="stylesheet">
+
+        <style>
+
+            .happy-monkey-regular {
+            font-family: "Happy Monkey", system-ui;
+            font-weight: 400;
+            font-style: normal;
+            }
+
+            body {
+                background-color: #111111;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+            }
+
+
+            button {
+                height: 12vh;
+                width: 20vw;
+                border-radius: 10px;
+                border-width: 0;
+                background-color: #000000;
+                color: #ffffff;
+                font-size: 8vh;
+                font-family: 'Happy Monkey';
+            }
+
+            #title {
+                position: absolute;
+                margin-bottom: 65vh;
+                color: #ffffff;
+                font-size: 12vh;
+                font-family: 'Happy Monkey';
+            }
+
+
+
+            #play {
+                margin-bottom: 5vh;
+                position: absolute;
+            }
+
+            #colors {
+                position: absolute;
+                margin-top: 25vh;
+            }
+
+            .s {
+                width: 40vw;
+                height: 40vw;
+                background-repeat: no-repeat;
+                background-size: 100%;
+                position: absolute;
+                margin-bottom: -30vh;
+
+            }
+
+            #s1 {
+                margin-left: -59.8vw;
+                background-image: url('1.png');
+            }
+
+            #s2 {
+                background-image: url('2.png');
+                margin-right: -59.8vw;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="title">
+            -kcatS-
+        </div>
+        
+        <button id="play" onclick="play()">
+            <div>
+                PLAY
+            </div>
+        </button>
+
+        
+
+        <button id="colors" onclick="survive()">
+            <div>
+                SURVIVE
+            </div>
+        </button>
+
+        
+        <div class="s" id="s1">
+
+        </div>
+
+        <div class="s" id="s2">
+
+        </div>
+        
+    </body>
+</html>
